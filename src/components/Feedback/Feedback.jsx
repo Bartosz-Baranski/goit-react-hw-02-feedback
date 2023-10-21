@@ -1,20 +1,13 @@
 import React from 'react';
-import css from './statistic.module.css';
+import css from './feedback.module.css';
 
-class Statistic extends React.Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
-    total: 0,
-    percent: 0,
-  };
+class Feedback extends React.Component {
+  state = { good: 0, neutral: 0, bad: 0 };
 
   choiceGood = () => {
     this.setState(value => {
       return {
         good: value.good + 1,
-        total: value.total + 1,
       };
     });
   };
@@ -23,7 +16,6 @@ class Statistic extends React.Component {
     this.setState(value => {
       return {
         neutral: value.neutral + 1,
-        total: value.total + 1,
       };
     });
   };
@@ -32,14 +24,22 @@ class Statistic extends React.Component {
     this.setState(value => {
       return {
         bad: value.bad + 1,
-        total: value.total + 1,
       };
     });
   };
 
-  render() {
-    const { good, neutral, bad, total, percent } = this.state;
+  countTotalFeedback = () => {
+    return this.state.good + this.state.bad + this.state.neutral;
+  };
 
+  countPositiveFeedbackPercentage = () => {
+    return Math.floor(this.state.good / this.state.total) * 100;
+  };
+
+  render() {
+    const { good, neutral, bad } = this.state;
+    const total = this.countTotalFeedback();
+    const positivePercentage = this.countPositiveFeedbackPercentage();
     return (
       <div className={css.statistic_body}>
         <h1 className={css.statistic_title}>Please leave feedback</h1>
@@ -70,15 +70,19 @@ class Statistic extends React.Component {
           </button>
         </div>
         <h2 className={css.statistic_body}>Statistic</h2>
+
         <div>
           <p className={css.statistic_value}>Good: {good}</p>
           <p className={css.statistic_value}>Neutral: {neutral}</p>
           <p className={css.statistic_value}>Bad: {bad}</p>
           <p className={css.statistic_value}>Total: {total}</p>
-          <p className={css.statistic_value}>Positive feedback: {percent}%</p>
+
+          <p className={css.statistic_value}>
+            Positive feedback: {positivePercentage}%
+          </p>
         </div>
       </div>
     );
   }
 }
-export default Statistic;
+export default Feedback;
