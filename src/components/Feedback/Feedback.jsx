@@ -2,7 +2,7 @@ import React from 'react';
 import css from './feedback.module.css';
 
 class Feedback extends React.Component {
-  state = { good: 0, neutral: 0, bad: 0 };
+  state = { good: 0, neutral: 0, bad: 0, total: 0, positivePercentage: 0 };
 
   choiceGood = () => {
     this.setState(value => {
@@ -27,19 +27,30 @@ class Feedback extends React.Component {
       };
     });
   };
+  // // sumTotal = () => {
+  // //   return this.state.good + this.state.neutral + this.state.bad;
+  // // };
+  // countTotalFeedback = () => {
+  //   // this.setState(value => {
+  //   //   return { total: value.total + 1 };
+  //   // });
+  //   // this.setState(value => {
+  //   //   return {
+  //   //     total: (value.total =
+  //   //       this.state.good + this.state.bad + this.state.neutral),
+  //   //   };
+  //   // });
+  //   return this.state.good + this.state.bad + this.state.neutral;
+  // };
 
-  countTotalFeedback = () => {
-    return this.state.good + this.state.bad + this.state.neutral;
-  };
-
-  countPositiveFeedbackPercentage = () => {
-    return Math.floor(this.state.good / this.state.total) * 100;
-  };
+  // countPositiveFeedbackPercentage = () => {
+  //   return Math.floor((this.state.good * 100) / this.state.total);
+  // };
 
   render() {
     const { good, neutral, bad } = this.state;
-    const total = this.countTotalFeedback();
-    const positivePercentage = this.countPositiveFeedbackPercentage();
+    const total = good + neutral + bad;
+    const positivePercentage = Math.floor((this.state.good * 100) / total);
     return (
       <div className={css.statistic_body}>
         <h1 className={css.statistic_title}>Please leave feedback</h1>
@@ -69,18 +80,23 @@ class Feedback extends React.Component {
             Bad
           </button>
         </div>
-        <h2 className={css.statistic_body}>Statistic</h2>
+        {total > 0 ? (
+          <>
+            <h2 className={css.statistic_body}>Statistic</h2>
+            <div>
+              <p className={css.statistic_value}>Good: {good}</p>
+              <p className={css.statistic_value}>Neutral: {neutral}</p>
+              <p className={css.statistic_value}>Bad: {bad}</p>
+              <p className={css.statistic_value}>Total: {total}</p>
 
-        <div>
-          <p className={css.statistic_value}>Good: {good}</p>
-          <p className={css.statistic_value}>Neutral: {neutral}</p>
-          <p className={css.statistic_value}>Bad: {bad}</p>
-          <p className={css.statistic_value}>Total: {total}</p>
-
-          <p className={css.statistic_value}>
-            Positive feedback: {positivePercentage}%
-          </p>
-        </div>
+              <p className={css.statistic_value}>
+                Positive feedback: {positivePercentage}%
+              </p>
+            </div>
+          </>
+        ) : (
+          <h3>There is no feedback</h3>
+        )}
       </div>
     );
   }
