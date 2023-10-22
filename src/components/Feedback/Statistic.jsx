@@ -1,9 +1,9 @@
 import React from 'react';
 import css from './feedback.module.css';
 
-const Statistic = (good, neutral, bad) => {
+const Statistics = ({ good, neutral, bad }) => {
   const total = good + neutral + bad;
-  const positivePercentage = total > 0 ? Math.floor((good / total) * 100) : 0;
+  const positivePercentage = Math.floor((this.state.good * 100) / total);
 
   return (
     <div>
@@ -27,4 +27,5 @@ const Statistic = (good, neutral, bad) => {
     </div>
   );
 };
-export default Statistic;
+
+export default Statistics;
