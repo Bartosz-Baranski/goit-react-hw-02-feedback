@@ -2,7 +2,7 @@ import React from 'react';
 import css from './feedback.module.css';
 
 class Feedback extends React.Component {
-  state = { good: 0, neutral: 0, bad: 0, total: 0, positivePercentage: 0 };
+  state = { good: 0, neutral: 0, bad: 0 };
 
   choiceGood = () => {
     this.setState(value => {
@@ -27,24 +27,16 @@ class Feedback extends React.Component {
       };
     });
   };
-  // // sumTotal = () => {
-  // //   return this.state.good + this.state.neutral + this.state.bad;
-  // // };
   // countTotalFeedback = () => {
-  //   // this.setState(value => {
-  //   //   return { total: value.total + 1 };
-  //   // });
-  //   // this.setState(value => {
-  //   //   return {
-  //   //     total: (value.total =
-  //   //       this.state.good + this.state.bad + this.state.neutral),
-  //   //   };
-  //   // });
-  //   return this.state.good + this.state.bad + this.state.neutral;
+  //   const totalFeedback = this.props.good + this.props.neutral + this.props.bad;
+  //   return totalFeedback;
   // };
 
   // countPositiveFeedbackPercentage = () => {
-  //   return Math.floor((this.state.good * 100) / this.state.total);
+  //   const positivePercentage = Math.floor(
+  //     (this.state.good * 100) / this.props.total
+  //   );
+  //   return positivePercentage;
   // };
 
   render() {
@@ -80,6 +72,7 @@ class Feedback extends React.Component {
             Bad
           </button>
         </div>
+
         {total > 0 ? (
           <>
             <h2 className={css.statistic_body}>Statistic</h2>
