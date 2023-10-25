@@ -1,95 +1,34 @@
-import React from 'react';
+import React, { Component } from 'react';
 import css from './feedback.module.css';
+import FeedbackOptions from './FeedbackOptions';
+import Statistics from './Statistic';
 
-class Feedback extends React.Component {
+class Feedback extends Component {
+  static defaultProps = {
+    step: 1,
+  };
   state = { good: 0, neutral: 0, bad: 0 };
 
-  choiceGood = () => {
-    this.setState(value => {
-      return {
-        good: value.good + 1,
-      };
-    });
+  handleChange = type => {
+    this.setState(prevState => ({
+      [type]: prevState[type] + this.props.step,
+    }));
   };
-
-  choiceNeutral = () => {
-    this.setState(value => {
-      return {
-        neutral: value.neutral + 1,
-      };
-    });
-  };
-
-  choiceBad = () => {
-    this.setState(value => {
-      return {
-        bad: value.bad + 1,
-      };
-    });
-  };
-  // countTotalFeedback = () => {
-  //   const totalFeedback = this.props.good + this.props.neutral + this.props.bad;
-  //   return totalFeedback;
-  // };
-
-  // countPositiveFeedbackPercentage = () => {
-  //   const positivePercentage = Math.floor(
-  //     (this.state.good * 100) / this.props.total
-  //   );
-  //   return positivePercentage;
-  // };
 
   render() {
     const { good, neutral, bad } = this.state;
-    const total = good + neutral + bad;
-    const positivePercentage = Math.floor((this.state.good * 100) / total);
+
     return (
       <div className={css.statistic_body}>
         <h1 className={css.statistic_title}>Please leave feedback</h1>
-        <div className={css.btn_list}>
-          <button
-            type="button"
-            name="good"
-            onClick={this.choiceGood}
-            className={css.statistic_btn}
-          >
-            Good
-          </button>
-          <button
-            type="button"
-            name="neutral"
-            onClick={this.choiceNeutral}
-            className={css.statistic_btn}
-          >
-            Neutral
-          </button>
-          <button
-            type="button"
-            name="bad"
-            onClick={this.choiceBad}
-            className={css.statistic_btn}
-          >
-            Bad
-          </button>
-        </div>
-
-        {total > 0 ? (
-          <>
-            <h2 className={css.statistic_body}>Statistic</h2>
-            <div>
-              <p className={css.statistic_value}>Good: {good}</p>
-              <p className={css.statistic_value}>Neutral: {neutral}</p>
-              <p className={css.statistic_value}>Bad: {bad}</p>
-              <p className={css.statistic_value}>Total: {total}</p>
-
-              <p className={css.statistic_value}>
-                Positive feedback: {positivePercentage}%
-              </p>
-            </div>
-          </>
-        ) : (
-          <h3>There is no feedback</h3>
-        )}
+        <FeedbackOptions
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          FeedbackChoice={this.handleChange}
+        />
+        <h2 className={css.statistic_body}>Statistic</h2>
+        <Statistics good={good} neutral={neutral} bad={bad} />
       </div>
     );
   }
